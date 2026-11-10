@@ -8,7 +8,7 @@ Upstream is Apache-2.0 and very active, but ships only a CUDA Dockerfile and pub
 
 ## Images
 
-`aurial/speech-to-speech:<s2s-version>.<build>` on Docker Hub — the first part is the pinned upstream release, the second bumps only when the image itself changes. `latest` follows the newest tag.
+`ghcr.io/aurial/speech-to-speech-docker:<s2s-version>.<build>` — the first part is the pinned upstream release, the second bumps only when the image itself changes. `latest` follows the newest tag. A GitHub Action checks PyPI daily, rebuilds and republishes automatically when upstream releases, and also publishes to Docker Hub (`aurial/speech-to-speech`) if the `DOCKERHUB_USERNAME`/`DOCKERHUB_TOKEN` repo secrets are set.
 
 ## Run
 
@@ -16,7 +16,7 @@ Upstream is Apache-2.0 and very active, but ships only a CUDA Dockerfile and pub
 docker run -d --name speech-to-speech \
   -p 8765:8765 \
   -v /path/to/cache:/root/.cache \
-  aurial/speech-to-speech:1.1.0.1 \
+  ghcr.io/aurial/speech-to-speech-docker:1.1.0.1 \
   serve --host 0.0.0.0 --port 8765 --device cpu \
     --stt faster-whisper --tts kokoro \
     --llm_backend chat-completions \
