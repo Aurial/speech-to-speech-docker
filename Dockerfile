@@ -28,7 +28,13 @@ RUN python -c "import nltk; nltk.download('punkt_tab'); nltk.download('averaged_
 # Model downloads (whisper, kokoro voices) land here; mount a volume to keep them.
 VOLUME /root/.cache
 
+# Env bridge: S2S_LLM_BASE_URL/S2S_LLM_API_KEY/S2S_LLM_MODEL (+ optional
+# S2S_STT/S2S_TTS/S2S_PORT/S2S_DEVICE) become serve flags, so container
+# managers can pass the API key as a masked env var, not a CLI argument.
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+
 EXPOSE 8765
 
-ENTRYPOINT ["speech-to-speech"]
 CMD ["serve", "--host", "0.0.0.0", "--port", "8765", "--device", "cpu"]
